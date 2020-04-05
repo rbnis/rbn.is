@@ -7,18 +7,16 @@
 :root {
   --color: rgb(36, 41, 46);
   --background-color: rgb(255, 255, 255);
-  --accent-color: rgb(68, 132, 206); 
-/*  --accent-color: rgb(0, 122, 255);*/
+  --accent-color: rgb(68, 132, 206);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --color: rgb(249, 249, 249);
     --background-color: rgb(50, 51, 54);
-/*    --accent-color: rgb(30, 132, 235);*/
     --image-filter: grayscale(15%) brightness(90%);
   }
-  
+
   /*img:not([src*=".svg"]) {
     filter: var(--image-filter);
     transition: 0.3s ease;
