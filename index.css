@@ -92,6 +92,10 @@ body {
   opacity: .7;
 }
 
+.title > h2 > .dim {
+  opacity: .4;
+}
+
 .social {
   display: flex;
   justify-content: center;
