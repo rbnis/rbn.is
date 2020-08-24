@@ -1,4 +1,4 @@
-FROM rbnt/rbnis:latest
+FROM rbnis/static-web:latest
 
 # Add static web page
 COPY index* /var/www/
