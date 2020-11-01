@@ -1,3 +1,7 @@
+@import "./assets/css/brands.min.css";
+@import "./assets/css/solid.min.css";
+@import "./assets/css/fontawesome.min.css";
+
 * {
   box-sizing: border-box;
   padding: 0;
