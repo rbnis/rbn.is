@@ -51,7 +51,7 @@ header {
 
 .splash {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
 }
 
@@ -140,8 +140,8 @@ header {
 }
 
 .continue, .continue:visited {
-  position: absolute;
-  bottom: 5%;
+  position: relative;
+  top: 3rem;
   color: var(--neutral-color);
 }
 
