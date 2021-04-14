@@ -141,7 +141,7 @@ header {
 
 .continue, .continue:visited {
   position: relative;
-  top: 3rem;
+  top: 1.5rem;
   color: var(--neutral-color);
 }
 
