@@ -209,7 +209,7 @@ section:nth-child(even) {
   box-shadow: 0 20px 20px -20px rgba(0, 0, 0, 30%), 0 0 15px rgba(0, 0, 0, 6%);
 }
 
-.grid-item h1 {
+.grid-item h2 {
   font-size: 1.5rem;
   margin-bottom: 1rem;
 }
