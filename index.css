@@ -324,5 +324,7 @@ footer {
 @media (prefers-reduced-motion: reduce) {
   * {
     transition: none !important;
+    animation: none !important;
+    -webkit-animation: none !important;
   }
 }
