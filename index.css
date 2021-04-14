@@ -222,7 +222,7 @@ section:nth-child(even) {
 .timeline {
   display: flex;
   justify-content: center;
-  margin: 0 20px;
+  margin: 0 1.5rem 0 0.5rem;
 }
 
 .timeline::after {
@@ -249,7 +249,7 @@ section:nth-child(even) {
 #experienced > .section-container::after {
   content: "";
   position: absolute;
-  margin: 0 calc(20px + (1.5rem / 2) - 2px);
+  margin: 0 calc(0.5rem + (1.5rem / 2) - 2px);
   width: 4px;
   height: 2rem;
   background: linear-gradient(180deg, var(--accent-color), rgba(0, 0, 0, 0));
