@@ -135,6 +135,10 @@ header {
   color: var(--color);
 }
 
+.social > a:hover  {
+  color: var(--accent-color);
+}
+
 .social > a:not(:last-child) {
   margin-right: 1em;
 }
