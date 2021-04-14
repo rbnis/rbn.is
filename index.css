@@ -123,6 +123,10 @@ header {
   letter-spacing: -.03em;
 }
 
+.splash p {
+  font-style: italic;
+}
+
 .social {
   display: flex;
   justify-content: flex-start;
