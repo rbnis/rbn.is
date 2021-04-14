@@ -264,10 +264,17 @@ section:nth-child(even) {
   margin-bottom: 0.5rem;
 }
 
-.company {
+.company, .company:visited {
+  display: block;
+  width: fit-content;
   font-size: 1rem;
-  margin-bottom: 0.5rem;
+  text-decoration: none;
   color: var(--accent-color);
+  margin-bottom: 0.5rem;
+}
+
+.company:hover {
+  text-decoration: underline;
 }
 
 .timeframe {
