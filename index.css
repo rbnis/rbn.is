@@ -303,9 +303,28 @@ footer {
   display: flex;
   flex-direction: row;
   justify-content: center;
+  align-items: center;
   padding: 3rem 1.5rem;
   font-size: 0.8rem;
   color: var(--neutral-color);
+}
+
+footer > a, footer > a:visited {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  text-decoration: none;
+  color: var(--neutral-color);
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
+footer svg {
+  width: 15px;
+  margin-left: 12px;
+  margin-right: 5px;
 }
 
 .bouncy {
