@@ -18,7 +18,7 @@ jobs:
       run: echo ::set-output name=TAG::${GITHUB_REF#refs/tags/}
 
     - name: Set current tag in footer
-      run: sed -i 's/{{GITTAG}}/$TAG/g' index.html
+      run: sed -i 's/{{GITTAG}}/'${TAG}'/g' index.html
       env:
         TAG: ${{ steps.get_version.outputs.TAG }}
 
