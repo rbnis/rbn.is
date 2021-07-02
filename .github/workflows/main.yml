@@ -2,7 +2,8 @@ name: Build and push to DockerHub
 
 on:
   push:
-    branches: [ master ]
+    tags:
+    - '*'
 
 jobs:
   build:
@@ -11,6 +12,15 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - uses: docker/setup-buildx-action@v1
+
+    - name: Get current tag
+      id: get_version
+      run: echo ::set-output name=TAG::${GITHUB_REF#refs/tags/}
+
+    - name: Set current tag in footer
+      run: sed -i 's/{{GITTAG}}/$TAG/g' index.html
+      env:
+        TAG: ${{ steps.get_version.outputs.TAG }}
 
     - name: Login to DockerHub
       uses: docker/login-action@v1
@@ -24,4 +34,6 @@ jobs:
         context: .
         file: ./Dockerfile
         push: true
-        tags: rbnis/rbnis:latest
+        tags:
+        - rbnis/rbnis:${{ steps.get_version.outputs.TAG }}
+        - rbnis/rbnis:latest
