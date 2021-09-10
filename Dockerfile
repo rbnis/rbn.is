@@ -1,4 +1,4 @@
-FROM nginx:1.21.1-alpine
+FROM nginx:1.21.3-alpine
 
 # Add static web page
 COPY index.html /usr/share/nginx/html/index.html
