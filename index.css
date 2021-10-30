@@ -143,13 +143,18 @@ header {
 
 .continue, .continue:visited {
   position: relative;
-  top: 1.5rem;
+  margin: 1.5rem;
   color: var(--neutral-color);
 }
 
 .continue > svg {
-  height: auto;
-  width: 50px;
+  height: 50px;
+  width: auto;
+}
+
+.hackydummy {
+  height: 50px;
+  margin: 1.5rem;
 }
 
 section {
