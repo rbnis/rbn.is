@@ -46,7 +46,6 @@ header {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  padding: 3rem 1.5rem;
 }
 
 .splash {
@@ -59,6 +58,7 @@ header {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin: 3rem 1.5rem;
   font-size: 14px;
 }
 
