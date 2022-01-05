@@ -5,17 +5,24 @@
 }
 
 :root {
-  --color: rgb(17, 17, 17);
-  --background-color: rgb(255, 255, 255);
-  --accent-color: rgb(68, 132, 206);
-  --neutral-color: rgb(118, 118, 118);
+  --color-raw: 17, 17, 17;
+  --background-color-raw: 255, 255, 255;
+  --accent-color-raw: 76, 46, 68;
+  --neutral-color-raw: 118, 118, 118;
+
+  --color: rgb(var(--color-raw));
+  --background-color: rgb(var(--background-color-raw));
+  --accent-color: rgb(var(--accent-color-raw));
+  --transparent: rgba(var(--accent-color-raw), 0);
+  --neutral-color: rgb(var(--neutral-color-raw));
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --color: rgb(238, 238, 238);
-    --background-color: rgb(30, 30, 30);
-    --neutral-color: rgb(134, 134, 134);
+    --color-raw: 238, 238, 238;
+    --background-color-raw: 30, 30, 30;
+    --accent-color-raw: 152, 94, 134;
+    --neutral-color-raw: 134, 134, 134;
     --image-filter: grayscale(15%) brightness(90%);
   }
 
@@ -171,7 +178,9 @@ section {
 }
 
 section:nth-child(even) {
-  background: linear-gradient(120deg, var(--background-color), var(--accent-color));
+  color: var(--background-color);
+  background: linear-gradient(var(--accent-color), var(--transparent), var(--transparent), var(--transparent)),
+              linear-gradient(120deg, var(--accent-color), var(--background-color));
 }
 
 .section-container {
@@ -210,6 +219,7 @@ section:nth-child(even) {
 }
 
 .grid-item {
+  color: var(--color);
   background: var(--background-color);
   padding: 1rem;
   border-radius: 0.5rem;
