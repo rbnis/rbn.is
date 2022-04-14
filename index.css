@@ -7,7 +7,7 @@
 :root {
   --color-raw: 17, 17, 17;
   --background-color-raw: 255, 255, 255;
-  --accent-color-raw: 76, 46, 68;
+  --accent-color-raw: 86, 135, 140;
   --neutral-color-raw: 118, 118, 118;
 
   --color: rgb(var(--color-raw));
@@ -21,7 +21,7 @@
   :root {
     --color-raw: 238, 238, 238;
     --background-color-raw: 30, 30, 30;
-    --accent-color-raw: 152, 94, 134;
+    --accent-color-raw: 86, 135, 140;
     --neutral-color-raw: 134, 134, 134;
     --image-filter: grayscale(15%) brightness(90%);
   }
@@ -87,6 +87,10 @@ header {
   box-shadow: 0 20px 20px -20px rgba(0, 0, 0, 30%), 0 0 15px rgba(0, 0, 0, 6%);
   margin-bottom: 40px;
   margin-right: 0;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -o-crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
 }
 
 @media screen and (min-width: 800px) {
