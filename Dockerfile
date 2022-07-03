@@ -1,4 +1,4 @@
-FROM nginxinc/nginx-unprivileged:1.21.6-alpine
+FROM nginxinc/nginx-unprivileged:1.23.0-alpine
 
 # Add static web page
 COPY index.html /usr/share/nginx/html/index.html
