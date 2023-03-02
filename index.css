@@ -235,6 +235,15 @@ section:nth-child(even) {
   margin-bottom: 1rem;
 }
 
+.grid-item a {
+  color: var(--neutral-color);
+  text-decoration: none;
+}
+
+.grid-item a:hover {
+  text-decoration: underline;
+}
+
 .experience-container {
   display: flex;
   flex-direction: row;
