@@ -224,11 +224,20 @@ section:nth-child(even) {
 }
 
 .grid-item {
+  position: relative;
   color: var(--color);
   background: var(--background-color);
   padding: 1rem;
   border-radius: 0.5rem;
   box-shadow: 0 20px 20px -20px rgba(0, 0, 0, 30%), 0 0 15px rgba(0, 0, 0, 6%);
+  overflow: hidden;
+}
+
+.grid-item * {
+  position: relative;
+  z-index: 1;
+  color: var(--color);
+  text-decoration: none;
 }
 
 .grid-item h2 {
@@ -243,6 +252,65 @@ section:nth-child(even) {
 
 .grid-item a:hover {
   text-decoration: underline;
+}
+
+.grid-item::after {
+  position: absolute;
+  content: "";
+  z-index: 0;
+  right: -2.5rem;
+  bottom: -2.5rem;
+  width: calc(100% + 2.5rem);
+  height: calc(100% + 2.5rem);
+  background-position: right bottom;
+  background-size: 9rem;
+  background-repeat: no-repeat;
+  opacity: 0.09;
+  transition: opacity 0.4s ease;
+}
+
+.grid-item:hover::after {
+  opacity: 0.3;
+}
+
+.ansible::after {
+  background-image: url(assets/brands/ansible.svg);
+}
+.azure::after {
+  background-image: url(assets/brands/azure.svg);
+}
+.cicd::after {
+  background-image: url(assets/brands/azure-pipelines.svg);
+}
+.docker::after {
+  background-image: url(assets/brands/docker.svg);
+}
+.git::after {
+  background-image: url(assets/brands/git.svg);
+}
+.gitops::after {
+  background-image: url(assets/brands/flux.svg);
+}
+.istio::after {
+  background-image: url(assets/brands/istio.svg);
+}
+.kubernetes::after {
+  background-image: url(assets/brands/kubernetes.svg);
+}
+.linux::after {
+  background-image: url(assets/brands/linux.svg);
+}
+.microsoftsql::after {
+  background-image: url(assets/brands/microsoftsql.svg);
+}
+.postgresql::after {
+  background-image: url(assets/brands/postgresql.svg);
+}
+.scripting::after {
+  background-image: url(assets/brands/bash.svg);
+}
+.terraform::after {
+  background-image: url(assets/brands/terraform.svg);
 }
 
 .experience-container {
