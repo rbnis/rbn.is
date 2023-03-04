@@ -1,0 +1,31 @@
+{
+  "enabled": true,
+  "useBaseBranchConfig": "merge",
+  "dryRun": "full",
+  "semanticCommits": "enabled",
+  "dependencyDashboard": false,
+  "rebaseWhen": "conflicted",
+  "labels": ["renovate"],
+  "packageRules": [
+    {
+        "matchDatasources": ["docker"],
+        "enabled": true,
+        "commitMessageTopic": "container image {{depName}}",
+        "commitMessageExtra": "to {{#if isSingleVersion}}v{{{newVersion}}}{{else}}{{{newValue}}}{{/if}}",
+        "matchUpdateTypes": ["major", "minor", "patch"],
+        "addLabels": ["docker"]
+    },
+    {
+      "matchUpdateTypes": ["patch"],
+      "addLabels": ["patch"]
+    },
+    {
+      "matchUpdateTypes": ["minor"],
+      "addLabels": ["minor"]
+    },
+    {
+      "matchUpdateTypes": ["major"],
+      "addLabels": ["major"]
+    },
+  ]
+}
