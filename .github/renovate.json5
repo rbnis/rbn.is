@@ -6,12 +6,12 @@
   "labels": ["renovate"],
   "packageRules": [
     {
-        "matchDatasources": ["docker"],
-        "enabled": true,
-        "commitMessageTopic": "container image {{depName}}",
-        "commitMessageExtra": "to {{#if isSingleVersion}}v{{{newVersion}}}{{else}}{{{newValue}}}{{/if}}",
-        "matchUpdateTypes": ["major", "minor", "patch"],
-        "addLabels": ["docker"]
+      "matchDatasources": ["docker"],
+      "enabled": true,
+      "commitMessageTopic": "container image {{depName}}",
+      "commitMessageExtra": "to {{#if isSingleVersion}}v{{{newVersion}}}{{else}}{{{newValue}}}{{/if}}",
+      "matchUpdateTypes": ["major", "minor", "patch"],
+      "addLabels": ["docker"]
     },
     {
       "matchUpdateTypes": ["patch"],
@@ -24,6 +24,11 @@
     {
       "matchUpdateTypes": ["major"],
       "addLabels": ["major"]
+    },
+    {
+      "matchDatasources": ["docker"],
+      "matchPackagePatterns": ["nginx"],
+      "groupName": "nginx"
     },
   ]
 }
