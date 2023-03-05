@@ -7,7 +7,7 @@
 :root {
   --color-raw: 17, 17, 17;
   --background-color-raw: 255, 255, 255;
-  --accent-color-raw: 86, 135, 140;
+  --accent-color-raw: 18, 111, 111;
   --neutral-color-raw: 118, 118, 118;
 
   --color: rgb(var(--color-raw));
@@ -21,7 +21,7 @@
   :root {
     --color-raw: 238, 238, 238;
     --background-color-raw: 30, 30, 30;
-    --accent-color-raw: 86, 135, 140;
+    --accent-color-raw: 67, 175, 176;
     --neutral-color-raw: 134, 134, 134;
     --image-filter: grayscale(15%) brightness(90%);
   }
