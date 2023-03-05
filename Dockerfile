@@ -1,17 +1,18 @@
-ARG version=1.23.2
-FROM nginx:${version}-alpine AS build
-ARG version
+ARG NGINX_VERSION=1.23.2-alpine
+FROM nginx:${NGINX_VERSION} AS build
+
+ARG NGINX_VERSION
 
 WORKDIR /root/
 
 # Add brotli support
 RUN apk add --update --no-cache git pcre-dev openssl-dev zlib-dev linux-headers build-base \
-    && wget http://nginx.org/download/nginx-${version}.tar.gz \
-    && tar zxf nginx-${version}.tar.gz \
+    && wget http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz \
+    && tar zxf nginx-${NGINX_VERSION}.tar.gz \
     && git clone https://github.com/google/ngx_brotli.git \
     && cd ngx_brotli \
     && git submodule update --init --recursive \
-    && cd ../nginx-${version} \
+    && cd ../nginx-${NGINX_VERSION} \
     && ./configure \
     --add-dynamic-module=../ngx_brotli \
     --prefix=/etc/nginx \
@@ -58,11 +59,12 @@ RUN apk add --update --no-cache git pcre-dev openssl-dev zlib-dev linux-headers 
     --with-ld-opt=-Wl,--as-needed,-O1,--sort-common \
     && make modules
 
-FROM nginxinc/nginx-unprivileged:${version}-alpine
-ARG version
+FROM nginxinc/nginx-unprivileged:${NGINX_VERSION}-alpine
 
-COPY --from=build /root/nginx-${version}/objs/ngx_http_brotli_filter_module.so /usr/lib/nginx/modules/
-COPY --from=build /root/nginx-${version}/objs/ngx_http_brotli_static_module.so /usr/lib/nginx/modules/
+ARG NGINX_VERSION
+
+COPY --from=build /root/nginx-${NGINX_VERSION}/objs/ngx_http_brotli_filter_module.so /usr/lib/nginx/modules/
+COPY --from=build /root/nginx-${NGINX_VERSION}/objs/ngx_http_brotli_static_module.so /usr/lib/nginx/modules/
 
 # RUN cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bak; echo 'load_module /usr/lib/nginx/modules/ngx_http_brotli_filter_module.so;' > /etc/nginx/nginx.conf; echo 'load_module /usr/lib/nginx/modules/ngx_http_brotli_static_module.so;' >> /etc/nginx/nginx.conf; cat /etc/nginx/nginx.conf >> /etc/nginx/nginx.conf;
 RUN cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bak \
