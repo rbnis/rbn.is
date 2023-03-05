@@ -1,7 +1,7 @@
 {
   "enabled": true,
   "useBaseBranchConfig": "merge",
-  "dryRun": "full",
+  "baseBranches": ["main", "debug/renovate"],
   "semanticCommits": "enabled",
   "dependencyDashboard": false,
   "rebaseWhen": "conflicted",
