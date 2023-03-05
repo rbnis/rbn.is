@@ -1,7 +1,7 @@
-ARG NGINX_VERSION=1.23.2-alpine
-FROM nginx:${NGINX_VERSION} AS build
-
-ARG NGINX_VERSION
+ARG NGINX_TAG=1.23.2-alpine
+FROM nginx:${NGINX_TAG} AS build
+ARG NGINX_TAG
+ARG NGINX_VERSION=${NGINX_TAG%"-alpine"}
 
 WORKDIR /root/
 
@@ -59,8 +59,7 @@ RUN apk add --update --no-cache git pcre-dev openssl-dev zlib-dev linux-headers 
     --with-ld-opt=-Wl,--as-needed,-O1,--sort-common \
     && make modules
 
-FROM nginxinc/nginx-unprivileged:${NGINX_VERSION}-alpine
-
+FROM nginxinc/nginx-unprivileged:${NGINX_TAG}
 ARG NGINX_VERSION
 
 COPY --from=build /root/nginx-${NGINX_VERSION}/objs/ngx_http_brotli_filter_module.so /usr/lib/nginx/modules/
