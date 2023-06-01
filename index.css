@@ -272,6 +272,11 @@ section:nth-child(even) {
 .grid-item:hover::after {
   opacity: 0.3;
 }
+@media (prefers-reduced-motion: no-preference) {
+  .grid-item:hover::after {
+    opacity: 0.09;
+  }
+}
 
 .ansible::after {
   background-image: url(assets/brands/ansible.svg);
@@ -441,6 +446,11 @@ footer svg {
 
 @media (prefers-reduced-motion: reduce) {
   * {
+    transition: none !important;
+    animation: none !important;
+    -webkit-animation: none !important;
+  }
+  *::after {
     transition: none !important;
     animation: none !important;
     -webkit-animation: none !important;
