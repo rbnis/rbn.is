@@ -5,12 +5,17 @@ ARG NGINX_VERSION
 WORKDIR /root/
 
 # Add brotli support
-RUN apk add --update --no-cache git pcre-dev openssl-dev zlib-dev linux-headers build-base \
+RUN apk add --update --no-cache git pcre-dev openssl-dev zlib-dev linux-headers build-base cmake \
     && wget http://nginx.org/download/nginx-${NGINX_VERSION%"-alpine"}.tar.gz \
     && tar zxf nginx-${NGINX_VERSION%"-alpine"}.tar.gz \
     && git clone https://github.com/google/ngx_brotli.git \
     && cd ngx_brotli \
     && git submodule update --init --recursive \
+    && cd deps/brotli \
+    && mkdir out && cd out \
+    && cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_C_FLAGS="-Ofast -m64 -march=native -mtune=native -flto -funroll-loops -ffunction-sections -fdata-sections -Wl,--gc-sections" -DCMAKE_CXX_FLAGS="-Ofast -m64 -march=native -mtune=native -flto -funroll-loops -ffunction-sections -fdata-sections -Wl,--gc-sections" -DCMAKE_INSTALL_PREFIX=./installed .. \
+    && cmake --build . --config Release --target brotlienc \
+    && cd ../../.. \
     && cd ../nginx-${NGINX_VERSION%"-alpine"} \
     && ./configure \
       --add-dynamic-module=../ngx_brotli \
