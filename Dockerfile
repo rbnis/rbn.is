@@ -5,20 +5,21 @@ ARG NGINX_VERSION
 WORKDIR /root/
 
 # Add brotli support
-RUN apk add --update --no-cache git pcre-dev openssl-dev zlib-dev linux-headers build-base cmake \
-    && wget http://nginx.org/download/nginx-${NGINX_VERSION%"-alpine"}.tar.gz \
+# Add build dependencies
+RUN apk add --update --no-cache git pcre-dev openssl-dev zlib-dev linux-headers build-base cmake
+# Download sources
+RUN wget http://nginx.org/download/nginx-${NGINX_VERSION%"-alpine"}.tar.gz \
     && tar zxf nginx-${NGINX_VERSION%"-alpine"}.tar.gz \
-    && git clone https://github.com/google/ngx_brotli.git \
-    && cd ngx_brotli \
-    && git submodule update --init --recursive \
-    && cd deps/brotli \
+    && git clone https://github.com/google/ngx_brotli.git && cd ngx_brotli \
+    && git submodule update --init --recursive --depth 1
+# Build brotli
+RUN cd /root/ngx_brotli/deps/brotli \
     && mkdir out && cd out \
     && cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_C_FLAGS="-Ofast -m64 -march=native -mtune=native -flto -funroll-loops -ffunction-sections -fdata-sections -Wl,--gc-sections" -DCMAKE_CXX_FLAGS="-Ofast -m64 -march=native -mtune=native -flto -funroll-loops -ffunction-sections -fdata-sections -Wl,--gc-sections" -DCMAKE_INSTALL_PREFIX=./installed .. \
-    && cmake --build . --config Release --target brotlienc \
-    && cd ../../.. \
-    && cd ../nginx-${NGINX_VERSION%"-alpine"} \
+    && cmake --build . --config Release --target brotlienc
+# Build nginx
+RUN cd /root/nginx-${NGINX_VERSION%"-alpine"} \
     && ./configure \
-      --add-dynamic-module=../ngx_brotli \
       --prefix=/etc/nginx \
       --sbin-path=/usr/sbin/nginx \
       --modules-path=/usr/lib/nginx/modules \
@@ -53,14 +54,16 @@ RUN apk add --update --no-cache git pcre-dev openssl-dev zlib-dev linux-headers 
       --with-http_stub_status_module \
       --with-http_sub_module \
       --with-http_v2_module \
+      --with-http_v3_module \
       --with-mail \
       --with-mail_ssl_module \
       --with-stream \
       --with-stream_realip_module \
       --with-stream_ssl_module \
       --with-stream_ssl_preread_module \
-      --with-cc-opt='-Os -fomit-frame-pointer -g' \
-      --with-ld-opt=-Wl,--as-needed,-O1,--sort-common \
+      --with-cc-opt='-Os -Wformat -Werror=format-security -g' \
+      --with-ld-opt='-Wl,--as-needed,-O1,--sort-common -Wl,-z,pack-relative-relocs' \
+      --add-dynamic-module=/root/ngx_brotli \
     && make modules \
     && cp /root/nginx-${NGINX_VERSION%"-alpine"}/objs/ngx_http_brotli_filter_module.so /root/ \
     && cp /root/nginx-${NGINX_VERSION%"-alpine"}/objs/ngx_http_brotli_static_module.so /root/
@@ -68,16 +71,11 @@ RUN apk add --update --no-cache git pcre-dev openssl-dev zlib-dev linux-headers 
 
 FROM nginxinc/nginx-unprivileged:${NGINX_VERSION}
 
+ENV NGINX_ENTRYPOINT_QUIET_LOGS true
+
 COPY --from=build /root/ngx_http_brotli_filter_module.so /usr/lib/nginx/modules/
 COPY --from=build /root/ngx_http_brotli_static_module.so /usr/lib/nginx/modules/
-
-# RUN cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bak; echo 'load_module /usr/lib/nginx/modules/ngx_http_brotli_filter_module.so;' > /etc/nginx/nginx.conf; echo 'load_module /usr/lib/nginx/modules/ngx_http_brotli_static_module.so;' >> /etc/nginx/nginx.conf; cat /etc/nginx/nginx.conf >> /etc/nginx/nginx.conf;
-RUN cp /etc/nginx/nginx.conf /etc/nginx/nginx.conf.bak \
-    && echo 'load_module /usr/lib/nginx/modules/ngx_http_brotli_filter_module.so;' > /etc/nginx/nginx.conf \
-    && echo 'load_module /usr/lib/nginx/modules/ngx_http_brotli_static_module.so;' >> /etc/nginx/nginx.conf \
-    && cat /etc/nginx/nginx.conf.bak >> /etc/nginx/nginx.conf
-RUN rm -f /etc/nginx/conf.d/default.conf
-COPY nginx/conf.d/rbnis.conf /etc/nginx/conf.d/rbnis.conf
+COPY nginx/nginx.conf /etc/nginx/nginx.conf
 
 # Add static web page
 COPY index.html /usr/share/nginx/html/index.html
