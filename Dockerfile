@@ -9,6 +9,7 @@ WORKDIR /root/
 RUN apk add --update --no-cache git pcre-dev openssl-dev zlib-dev linux-headers build-base cmake
 # Download sources
 RUN wget http://nginx.org/download/nginx-${NGINX_VERSION%"-alpine"}.tar.gz \
+    && sha1sum nginx-${NGINX_VERSION%"-alpine"}.tar.gz \
     && tar zxf nginx-${NGINX_VERSION%"-alpine"}.tar.gz \
     && git clone https://github.com/google/ngx_brotli.git && cd ngx_brotli \
     && git submodule update --init --recursive --depth 1
@@ -19,6 +20,8 @@ RUN cd /root/ngx_brotli/deps/brotli \
     && cmake --build . --config Release --target brotlienc
 # Build nginx
 RUN cd /root/nginx-${NGINX_VERSION%"-alpine"} \
+    && export CFLAGS="-m64 -march=native -mtune=native -Ofast -flto -funroll-loops -ffunction-sections -fdata-sections -Wl,--gc-sections" \
+    && export LDFLAGS="-m64 -Wl,-s -Wl,-Bsymbolic -Wl,--gc-sections" \
     && ./configure \
       --prefix=/etc/nginx \
       --sbin-path=/usr/sbin/nginx \
@@ -65,6 +68,8 @@ RUN cd /root/nginx-${NGINX_VERSION%"-alpine"} \
       --with-ld-opt='-Wl,--as-needed,-O1,--sort-common -Wl,-z,pack-relative-relocs' \
       --add-dynamic-module=/root/ngx_brotli \
     && make modules \
+    && sha1sum objs/ngx_http_brotli_filter_module.so \
+    && sha1sum objs/ngx_http_brotli_static_module.so \
     && cp /root/nginx-${NGINX_VERSION%"-alpine"}/objs/ngx_http_brotli_filter_module.so /root/ \
     && cp /root/nginx-${NGINX_VERSION%"-alpine"}/objs/ngx_http_brotli_static_module.so /root/
 
