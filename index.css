@@ -269,12 +269,9 @@ section:nth-child(even) {
   transition: opacity 0.4s ease;
 }
 
-.grid-item:hover::after {
-  opacity: 0.3;
-}
 @media (prefers-reduced-motion: no-preference) {
   .grid-item:hover::after {
-    opacity: 0.09;
+    opacity: 0.3;
   }
 }
 
