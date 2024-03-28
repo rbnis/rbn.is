@@ -290,11 +290,11 @@ section:nth-child(even) {
 .docker::after {
   background-image: url(assets/brands/docker.svg);
 }
+.flux::after {
+  background-image: url(assets/brands/flux.svg);
+}
 .git::after {
   background-image: url(assets/brands/git.svg);
-}
-.gitops::after {
-  background-image: url(assets/brands/flux.svg);
 }
 .istio::after {
   background-image: url(assets/brands/istio.svg);
@@ -307,6 +307,9 @@ section:nth-child(even) {
 }
 .microsoftsql::after {
   background-image: url(assets/brands/microsoftsql.svg);
+}
+.opentofu::after {
+  background-image: url(assets/brands/opentofu.svg);
 }
 .postgresql::after {
   background-image: url(assets/brands/postgresql.svg);
