@@ -20,11 +20,11 @@ jobs:
 
       # Update footer
       - name: Set current ref in footer
-        run: sed -i 's/{{GITTAG}}/'${REF_NAME}'/g' index.html
+        run: sed -i "s/{{GITTAG}}/$(echo ${REF_NAME} | sed -e 's/[\/&]/\\&/g')/g" index.html
         env:
           REF_NAME: ${{ github.head_ref || github.ref_name }}
       - name: Set current year in footer
-        run: sed -i 's/{{YEAR}}/'$(date +%Y)'/g' index.html
+        run: sed -i "s/{{YEAR}}/$(date +%Y)/g" index.html
 
       # Build ab push docker image
       - uses: docker/setup-buildx-action@v3
