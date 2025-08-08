@@ -103,8 +103,9 @@ header {
   }
 }
 
-.splash h1 {
+.splash .greeting {
   font-size: 3em;
+  font-weight: bold;
   letter-spacing: -.03em;
   line-height: 1;
   margin: 0;
@@ -121,7 +122,7 @@ header {
   letter-spacing: .5px;
 }
 
-.splash h2 {
+.splash .tagline1 {
   margin-top: 1.5rem;
   margin-bottom: 0;
   font-size: 2.25em;
@@ -131,7 +132,7 @@ header {
   letter-spacing: -.03em;
 }
 
-.splash p {
+.splash .tagline2 {
   font-style: italic;
 }
 
@@ -201,7 +202,7 @@ section:nth-child(even) {
   }
 }
 
-.section-container > h1 {
+.section-container > h2 {
   font-size: 2.5rem;
   line-height: 1;
   margin-bottom: 2rem;
@@ -242,7 +243,7 @@ section:nth-child(even) {
   text-decoration: none;
 }
 
-.grid-item h2 {
+.grid-item h3 {
   font-size: 1.5rem;
   margin-bottom: 1rem;
 }
