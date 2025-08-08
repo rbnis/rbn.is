@@ -26,6 +26,12 @@ jobs:
       - name: Set current year in footer
         run: sed -i "s/{{YEAR}}/$(date +%Y)/g" index.html
 
+      # Minify sources
+      - name: Minify sources
+        uses: docker://devatherock/minify-js:3.1.0
+        with:
+          add_suffix: false
+
       # Build ab push docker image
       - uses: docker/setup-buildx-action@v3
       - name: Extract metadata for image
