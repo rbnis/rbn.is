@@ -16,7 +16,7 @@ jobs:
 
     steps:
       # Checkout
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       # Update footer
       - name: Set current ref in footer
