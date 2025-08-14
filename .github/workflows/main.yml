@@ -27,7 +27,7 @@ jobs:
           args: --input ./index.html \
             --value "date.year=${{ env.date_year }}" \
             --value "git.ref=${{ github.head_ref || github.ref_name }}" \
-            --output .
+            --output . --overwrite
 
       # Minify sources
       - name: Minify sources
