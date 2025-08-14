@@ -15,16 +15,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout
       - uses: actions/checkout@v5
 
-      # Update footer
-      - name: Set current ref in footer
-        run: sed -i "s/{{GITTAG}}/$(echo ${REF_NAME} | sed -e 's/[\/&]/\\&/g')/g" index.html
-        env:
-          REF_NAME: ${{ github.head_ref || github.ref_name }}
-      - name: Set current year in footer
-        run: sed -i "s/{{YEAR}}/$(date +%Y)/g" index.html
+      - name: Set variables
+        run: |
+          echo "date_year=$(date +%Y)" >> $GITHUB_ENV
+
+      - name: Render index.html
+        uses: YuKitsune/template-cli@v0.1.1
+        with:
+          args: --input ./index.html \
+            --value "date.year=${{ env.date_year }}" \
+            --value "git.ref=${{ github.head_ref || github.ref_name }}" \
+            --output .
 
       # Minify sources
       - name: Minify sources
