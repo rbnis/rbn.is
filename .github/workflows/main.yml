@@ -21,6 +21,7 @@ jobs:
         run: |
           echo "date_year=$(date +%Y)" >> $GITHUB_ENV
           echo "date_timestamp=$(date -u +"%Y-%m-%dT%H:%M:%SZ")" >> $GITHUB_ENV
+          echo "date_security_expiry_timestamp=$(date -u -d "+6 months" +"%Y-%m-%dT%H:%M:%SZ")" >> $GITHUB_ENV
 
       - name: Render index.html
         uses: YuKitsune/template-cli@v0.1.1
@@ -29,11 +30,13 @@ jobs:
             --value "date.year=${{ env.date_year }}" \
             --value "git.ref=${{ github.head_ref || github.ref_name }}" \
             --output . --overwrite
-      - name: Render sitemap.xml
+      - name: Render well-knowns
         uses: YuKitsune/template-cli@v0.1.1
         with:
-          args: --input ./index.html --input ./well-known/sitemap.xml \
+          args: --input ./well-known/sitemap.xml --input ./well-known/security.txt \
             --value "date.timestamp=${{ env.date_timestamp }}" \
+            --value "date.security_expiry.timestamp=${{ env.date_security_expiry_timestamp }}" \
+            --value "contact.mail.security=${{ env.SECURITY_MAIL }}" \
             --output ./well-known --overwrite
 
       # Minify sources
