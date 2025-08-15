@@ -20,6 +20,7 @@ jobs:
       - name: Set variables
         run: |
           echo "date_year=$(date +%Y)" >> $GITHUB_ENV
+          echo "date_timestamp=$(date -u +"%Y-%m-%dT%H:%M:%SZ")" >> $GITHUB_ENV
 
       - name: Render index.html
         uses: YuKitsune/template-cli@v0.1.1
@@ -28,6 +29,12 @@ jobs:
             --value "date.year=${{ env.date_year }}" \
             --value "git.ref=${{ github.head_ref || github.ref_name }}" \
             --output . --overwrite
+      - name: Render sitemap.xml
+        uses: YuKitsune/template-cli@v0.1.1
+        with:
+          args: --input ./index.html --input ./well-known/sitemap.xml \
+            --value "date.timestamp=${{ env.date_timestamp }}" \
+            --output ./well-known --overwrite
 
       # Minify sources
       - name: Minify sources
