@@ -36,7 +36,6 @@ jobs:
           args: --input ./well-known/sitemap.xml --input ./well-known/security.txt \
             --value "date.timestamp=${{ env.date_timestamp }}" \
             --value "date.security_expiry.timestamp=${{ env.date_security_expiry_timestamp }}" \
-            --value "contact.mail.security=${{ env.SECURITY_MAIL }}" \
             --output ./well-known --overwrite
 
       # Minify sources

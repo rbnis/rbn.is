@@ -1,4 +1,4 @@
-Contact: mailto:{{ .contact.mail.security }}
+Contact: mailto:security@rbn.is
 Expires: {{ .date.security_expiry.timestamp }}
 Preferred-Languages: en, de
 Canonical: https://127.0.0.1/.well-known/security.txt
