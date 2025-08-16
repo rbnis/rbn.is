@@ -10,8 +10,14 @@ on:
     branches:
       - 'main'
 
+permissions:
+  contents: read
+  packages: write
+  attestations: write
+  id-token: write
+
 jobs:
-  release:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -19,6 +25,7 @@ jobs:
 
       - name: Set variables
         run: |
+          echo "git_shortsha=$(echo ${GITHUB_SHA} | cut -c1-7)" >> $GITHUB_ENV
           echo "date_year=$(date +%Y)" >> $GITHUB_ENV
           echo "date_timestamp=$(date -u +"%Y-%m-%dT%H:%M:%SZ")" >> $GITHUB_ENV
           echo "date_security_expiry_timestamp=$(date -u -d "+6 months" +"%Y-%m-%dT%H:%M:%SZ")" >> $GITHUB_ENV
@@ -67,12 +74,29 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push
+        id: push
         uses: docker/build-push-action@v6
         with:
           context: .
           platforms: linux/amd64,linux/arm64
           push: true
+          provenance: false
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+      - name: Generate SBOM
+        # if: startsWith(github.ref, 'refs/tags/v')
+        uses: anchore/sbom-action@v0
+        with:
+          image: ghcr.io/${{ github.repository }}:${{ env.git_shortsha }}
+          artifact-name: sbom.spdx
+      - name: Attest SBOM
+        # if: startsWith(github.ref, 'refs/tags/v')
+        uses: actions/attest-sbom@v2
+        with:
+          subject-name: ghcr.io/${{ github.repository }}
+          subject-digest: ${{ steps.push.outputs.digest }}
+          sbom-path: sbom.spdx
+          push-to-registry: true
