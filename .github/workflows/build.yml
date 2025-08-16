@@ -91,12 +91,14 @@ jobs:
         uses: anchore/sbom-action@v0
         with:
           image: ghcr.io/${{ github.repository }}:${{ env.git_shortsha }}
-          artifact-name: sbom.spdx
+          format: spdx-json
+          output-file: sbom.spdx.json
+          artifact-name: sbom.spdx.json
       - name: Attest SBOM
         # if: startsWith(github.ref, 'refs/tags/v')
         uses: actions/attest-sbom@v2
         with:
           subject-name: ghcr.io/${{ github.repository }}
           subject-digest: ${{ steps.push.outputs.digest }}
-          sbom-path: sbom.spdx
+          sbom-path: sbom.spdx.json
           push-to-registry: true
