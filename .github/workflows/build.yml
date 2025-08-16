@@ -23,7 +23,6 @@ jobs:
 
       - name: Set variables
         run: |
-          echo "git_shortsha=$(echo ${GITHUB_SHA} | cut -c1-7)" >> $GITHUB_ENV
           echo "date_year=$(date +%Y)" >> $GITHUB_ENV
           echo "date_timestamp=$(date -u +"%Y-%m-%dT%H:%M:%SZ")" >> $GITHUB_ENV
           echo "date_security_expiry_timestamp=$(date -u -d "+6 months" +"%Y-%m-%dT%H:%M:%SZ")" >> $GITHUB_ENV
