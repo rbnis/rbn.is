@@ -1,6 +1,9 @@
 ARG NGINX_VERSION=1.29.0-alpine
+ARG TARGETARCH
+
 FROM nginx:${NGINX_VERSION} AS build
 ARG NGINX_VERSION
+ARG TARGETARCH
 
 WORKDIR /root/
 
@@ -16,7 +19,7 @@ RUN wget http://nginx.org/download/nginx-${NGINX_VERSION%"-alpine"}.tar.gz \
 # Build brotli
 RUN cd /root/ngx_brotli/deps/brotli \
     && mkdir out && cd out \
-    && cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_C_FLAGS="-Ofast -m64 -march=native -mtune=native -flto -funroll-loops -ffunction-sections -fdata-sections -Wl,--gc-sections" -DCMAKE_CXX_FLAGS="-Ofast -m64 -march=native -mtune=native -flto -funroll-loops -ffunction-sections -fdata-sections -Wl,--gc-sections" -DCMAKE_INSTALL_PREFIX=./installed .. \
+    && cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DCMAKE_C_FLAGS="-Ofast -flto -funroll-loops -ffunction-sections -fdata-sections -Wl,--gc-sections" -DCMAKE_CXX_FLAGS="-Ofast -flto -funroll-loops -ffunction-sections -fdata-sections -Wl,--gc-sections" -DCMAKE_INSTALL_PREFIX=./installed .. \
     && cmake --build . --config Release --target brotlienc
 # Build nginx
 RUN cd /root/nginx-${NGINX_VERSION%"-alpine"} \
