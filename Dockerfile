@@ -2,8 +2,6 @@ ARG NGINX_VERSION=1.29.0-alpine
 ARG TARGETARCH
 
 FROM nginx:${NGINX_VERSION} AS build
-ARG NGINX_VERSION
-ARG TARGETARCH
 
 WORKDIR /root/
 
@@ -45,6 +43,6 @@ COPY nginx/nginx.conf /etc/nginx/nginx.conf
 
 # Add static web page
 COPY index.html /usr/share/nginx/html/index.html
-COPY index.css /usr/share/nginx/html/index.css
+COPY *.css /usr/share/nginx/html/
 COPY assets/ /usr/share/nginx/html/assets/
 COPY well-known/ /usr/share/nginx/html/well-known/

@@ -26,6 +26,7 @@ jobs:
           echo "date_year=$(date +%Y)" >> $GITHUB_ENV
           echo "date_timestamp=$(date -u +"%Y-%m-%dT%H:%M:%SZ")" >> $GITHUB_ENV
           echo "date_security_expiry_timestamp=$(date -u -d "+6 months" +"%Y-%m-%dT%H:%M:%SZ")" >> $GITHUB_ENV
+          echo "files_css_sha=$(sha256sum index.css | cut -c1-8)" >> $GITHUB_ENV
 
       - name: Render index.html
         uses: YuKitsune/template-cli@v0.1.1
@@ -41,6 +42,12 @@ jobs:
             --value "date.timestamp=${{ env.date_timestamp }}" \
             --value "date.security_expiry.timestamp=${{ env.date_security_expiry_timestamp }}" \
             --output ./well-known --overwrite
+
+      # Rename index.css to include sha
+      - name: Rename index.css with sha
+        run: |
+          mv "index.css" "index.${{ env.files_css_sha }}.css"
+          sed -i "s/index.css/index.${{ env.files_css_sha }}.css/g" index.html
 
       # Minify sources
       - name: Minify sources
