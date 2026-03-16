@@ -27,8 +27,9 @@
     },
     {
       "matchDatasources": ["docker"],
-      "matchPackagePatterns": ["nginx"],
-      "groupName": "nginx"
-    },
+      "matchPackageNames": ["nginx", "nginxinc/nginx-unprivileged"],
+      "groupName": "nginx",
+      "minimumGroupSize": 2
+    }
   ]
 }
