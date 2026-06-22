@@ -19,7 +19,7 @@ jobs:
       image_digest: ${{ steps.push.outputs.digest }}
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Set variables
         run: |
